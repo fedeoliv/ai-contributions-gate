@@ -1,12 +1,12 @@
-## 📎 Discussion Link
+## Discussion Link
 Link:
 
-## 🧠 Contexto
+## Contexto
 Explique o problema
 
-## 🚀 Solução
+## Solução
 Explique o que foi feito
 
-## ✅ Checklist
+## Checklist
 - [ ] Existe discussion vinculada
 - [ ] A solução foi validada
