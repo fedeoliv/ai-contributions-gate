@@ -1,3 +1,3 @@
 # Vouched Users
 
-- @seu-usuario
+- @seu-usuario- @denisemignoli
