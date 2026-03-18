@@ -1,12 +1,4 @@
-name: Features, Bugs, Questions
-description: Use Discussions primeiro
-body:
-  - type: markdown
-    attributes:
-      value: |
-        🚫 Não abra issue diretamente.
-
-        👉 Por favor, vá para Discussions:
-        https://github.com/denisemignoli/ai-contributions-gate/discussions/new/choose
-
-        Obrigado!
+contact_links:
+  - name: Features, Bug Reports, Questions
+    url: https://github.com/denisemignoli/ai-contributions-gate/discussions/new/choose
+    about: Our preferred starting point if you have any questions or suggestions about configuration, features or behavior.
