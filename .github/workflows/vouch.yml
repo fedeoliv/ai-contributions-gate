@@ -1,0 +1,45 @@
+name: Vouch User
+
+on:
+  issue_comment:
+    types: [created]
+  discussion_comment:
+    types: [created]
+
+jobs:
+  vouch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if comment contains !vouch
+        id: check
+        run: |
+          if [[ "${{ github.event.comment.body }}" != *"!vouch"* ]]; then
+            exit 1
+          fi
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Get PR author
+        id: author
+        run: |
+          AUTHOR="${{ github.event.issue.user.login }}"
+          echo "author=$AUTHOR" >> $GITHUB_OUTPUT
+
+      - name: Add to VOUCHED.md
+        run: |
+          USER="@${{ steps.author.outputs.author }}"
+          FILE=".github/VOUCHED.md"
+
+          if ! grep -q "$USER" $FILE; then
+            echo "- $USER" >> $FILE
+          fi
+
+      - name: Commit changes
+        run: |
+          git config user.name "vouch-bot"
+          git config user.email "actions@github.com"
+          git add .github/VOUCHED.md
+          git commit -m "Add vouched user: ${{ steps.author.outputs.author }}" || echo "No changes"
+          git push
