@@ -14,11 +14,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if comment contains !vouch
+      - name: Check if commenter is authorized
         run: |
-          if [[ "${{ github.event.comment.body }}" != *"!vouch"* ]]; then
+          ASSOCIATION="$COMMENT_AUTHOR_ASSOCIATION"
+          if [[ "$ASSOCIATION" != "OWNER" && "$ASSOCIATION" != "MEMBER" && "$ASSOCIATION" != "COLLABORATOR" ]]; then
+            echo "User is not authorized to vouch (association: $ASSOCIATION)"
             exit 1
           fi
+        env:
+          COMMENT_AUTHOR_ASSOCIATION: ${{ github.event.comment.author_association }}
+
+      - name: Check if comment contains !vouch
+        run: |
+          if [[ "$COMMENT_BODY" != *"!vouch"* ]]; then
+            exit 1
+          fi
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
 
       - name: Checkout repo
         uses: actions/checkout@v3
