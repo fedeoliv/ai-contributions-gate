@@ -6,13 +6,15 @@ on:
   discussion_comment:
     types: [created]
 
+permissions:
+  contents: write
+
 jobs:
   vouch:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check if comment contains !vouch
-        id: check
         run: |
           if [[ "${{ github.event.comment.body }}" != *"!vouch"* ]]; then
             exit 1
@@ -21,10 +23,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Get PR author
+      - name: Get author (issue or discussion)
         id: author
         run: |
-          AUTHOR="${{ github.event.issue.user.login }}"
+          if [ "${{ github.event_name }}" = "discussion_comment" ]; then
+            AUTHOR="${{ github.event.discussion.user.login }}"
+          else
+            AUTHOR="${{ github.event.issue.user.login }}"
+          fi
+
+          echo "author=$AUTHOR"
           echo "author=$AUTHOR" >> $GITHUB_OUTPUT
 
       - name: Add to VOUCHED.md
