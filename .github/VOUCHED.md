@@ -2,4 +2,3 @@
 
 
 - @denisemignoli
-- @fedeoliv
